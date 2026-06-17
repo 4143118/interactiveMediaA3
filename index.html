@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bubble Bubble</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="main.js" defer></script>
+</head>
+<!--set up an intro-dialog here for users.
+    so that they can easily understand how to play with it.-->
+<body>
+    <dialog id="intro-dialog" open>
+        <h1>Bubble Bubble</h1>
+        <p>
+            This is a milk tea shop simulation game.
+            Follow the order and drag the required toppings into the milk tea cup step by step.
+        </p>
+        <button id="start-button">Start</button>
+    </dialog>
+
+<!--upload the background img (the control console, the order lists, and toppings table)
+    and this is the main section of this project, and it will fill up whole screen.-->
+    <main class="game">
+    <section class="drink-area">
+        <img src="source/background.png" class="background" alt="milk tea background">
+    </section>
+
+    </main>
+</body>
+</html>
