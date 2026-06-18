@@ -1,0 +1,295 @@
+/*the size of this background img was not perfect match the browsers' window,
+so I have to use a pure colour place to fill up the rest of the blank place.*/
+/*I chose a warm tone colour which can match the warm vibe.*/
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background: #6b3f1f;
+    font-family: Arial, sans-serif;
+}
+
+/*style for the instruction dialog.
+it appears before the game starts and explains the basic rule to the player.*/
+#intro-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 430px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 32px;
+    border: none;
+    border-radius: 24px;
+    background: #FFF3DF;
+    text-align: center;
+
+    box-shadow:
+            0 12px 40px rgba(0,0,0,.25);
+    z-index: 1000;
+}
+
+/*the dark backdrop makes the player focus on the instruction first.*/
+#intro-dialog::backdrop {
+    background: rgba(0,0,0,.45);
+}
+
+#intro-dialog h1 {
+    margin-bottom: 16px;
+    color: #2D1A0E;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+#intro-dialog p {
+    margin-bottom: 28px;
+    color: #5A3A22;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+#start-btn {
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(
+            to bottom,
+            #F6D8A5 0%,
+            #EFC17A 100%
+    );
+    color: #2D1A0E;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow:
+            0 4px 0 #A36B2E,
+            0 8px 14px rgba(0,0,0,.2);
+}
+
+.game {
+    width: 100vw;
+    height: 100vh;
+    /*containing block*/
+    position: relative;
+    /*same colour*/
+    background: #6b3f1f;
+}
+
+.drink-area {
+    width: 100%;
+    height: 100%;
+    /*flexbox is used to keep the background image centered regardless of screen size.*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* button group */
+/*the rsest and done buttons are grouped together because they belong to the same
+stage of the game process. Placing them near the cup creates a clearer workflow.
+players's eyesight will go through a workflow from top to bottom, natural*/
+.button-group {
+    position: absolute;
+    left: 48%;
+    bottom: 38px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 18px;
+    z-index: 100;
+}
+
+/*a warm colour palette was chosen to match the milk tea shop theme. A subtle shadow and pressed
+effect help make the buttons feel more interactive and game-like.*/
+.game-btn {
+    width: 125px;
+    height: 48px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(
+            to bottom,
+            #F6D8A5 0%,
+            #EFC17A 100%
+    );
+    color: #2D1A0E;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow:
+            0 4px 0 #A36B2E,
+            0 8px 14px rgba(0,0,0,.25);
+    transition:
+            transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+/*darkening the button and reducing the shadow creates the illusion that the button is
+being physically pressed.*/
+.game-btn:active {
+    transform: translateY(4px);
+    filter: brightness(0.82);
+    box-shadow:
+            inset 0 3px 8px rgba(0,0,0,.25),
+            0 1px 0 #8B5A28;
+}
+
+/* it is used to temporarily remove elements from view. This is mainly used
+for different drink states before the correct ingredient is added.*/
+.hidden {
+    display: none;
+}
+
+/*the cup zone acts as the drop target area. its size roughly matches the visible cup
+rather than the entire background image, which improves drop accuracy.*/
+#cup-zone {
+    position: absolute;
+    width: 220px;
+    height: 330px;
+    left: 48%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    pointer-events: none;
+}
+
+#cup-zone img {
+    position: absolute;
+    object-fit: contain;
+    height: auto;
+    max-width: none;
+}
+
+#ice-drop {
+    width: 300px;
+    left: 55%;
+    top: -12%;
+    transform: translateX(-50%);
+}
+
+#pudding-drop {
+    width: 287px;
+    left: 53%;
+    top: -13%;
+    transform: translateX(-50%);
+}
+
+#boba-drop {
+    width: 287px;
+    left: 53%;
+    top: -13%;
+    transform: translateX(-50%);
+}
+
+.hit-area {
+    position: absolute;
+    z-index: 200;
+    cursor: grab;
+}
+
+/* ice select section on the right */
+#hit-ice {
+    left: 70%;
+    top: 12%;
+    width: 220px;
+    height: 95px;
+}
+
+/* milk pudding select section on the right  */
+#hit-pudding {
+    left: 70%;
+    top: 25%;
+    width: 220px;
+    height: 95px;
+}
+
+/* boba select section on the right */
+#hit-boba {
+    left: 70%;
+    top: 38%;
+    width: 220px;
+    height: 95px;
+}
+
+/* cream select section on the left */
+#hit-cream {
+    left: 16%;
+    top: 45%;
+    width: 130px;
+    height: 330px;
+}
+
+/*allow items follow the cursor freely during the drag interaction*/
+.drag-item {
+    position: absolute;
+    width: 110px;
+    height: auto;
+    z-index: 500;
+    cursor: grabbing;
+    user-select: none;
+    pointer-events: none;
+}
+
+/*give a style to the result dialog.*/
+#result-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 32px;
+    border: none;
+    border-radius: 24px;
+    background: #FFF3DF;
+    text-align: center;
+    box-shadow:
+            0 12px 40px rgba(0,0,0,.25);
+}
+
+/*dark backdrop helps draw attention to the result.*/
+#result-dialog::backdrop {
+    background: rgba(0,0,0,.45);
+}
+
+/*large heading makes the result immediately visible.*/
+#result-title {
+    margin-bottom: 16px;
+    color: #2D1A0E;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+/*message explains whether the order was correct.*/
+#result-message {
+    margin-bottom: 28px;
+    color: #5A3A22;
+    font-size: 20px;
+}
+
+/*same button style is reused to maintain visual consistency.*/
+#close-result-btn {
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(
+            to bottom,
+            #F6D8A5 0%,
+            #EFC17A 100%
+    );
+    color: #2D1A0E;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #A36B2E,
+    0 8px 14px rgba(0, 0, 0, .2);
+}
